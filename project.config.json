@@ -40,16 +40,8 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
-			"list": [
-				{
-					"id": 0,
-					"name": "pages/docAct/docAct",
-					"pathName": "pages/docAct/docAct",
-					"query": "channelId=ch_999c55f8&appId=d317f559&roomId=lss_e82c916c&accountId=miniProgram_2875&token=vhall&initType=act",
-					"scene": null
-				}
-			]
+			"current": -1,
+			"list": []
 		}
 	}
 }

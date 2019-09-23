@@ -1,0 +1,21 @@
+/* pages/chat/chat.wxss */
+page {
+  background-color: #f7f7f7;
+  height: 100%;
+  text-align: center;
+  padding: 30rpx;
+  box-sizing: border-box;
+}
+.doc-box {
+  width: 100%;
+}
+.nav-box {
+  margin-top: 30rpx;
+  display: flex;
+  justify-content: space-between;
+}
+.nav-box text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,0 +1,4 @@
+<view class="doc-box">
+  <image src="{{imageUrl}}" class="image" wx:if="{{imageUrl}}" />
+  <view wx:else>演示文档已被关闭</view>
+</view>

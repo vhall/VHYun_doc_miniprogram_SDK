@@ -1,38 +1,58 @@
 <!-- pages/index.wxml -->
 <view class='item'>
-  <span>appId</span>
-  <span class="input-span">
-    <input id='appId' bindinput='getinput' type='text' value='{{appId}}' />
-  </span>
+    <span>appId</span>
+    <span class="input-span">
+        <input id='appId' bindinput='getinput' type='text' value='{{appId}}' />
+    </span>
 </view>
 <view class='item'>
-  <span>channelId</span>
-  <span class="input-span">
-    <input id='channelId' bindinput='getinput' type='text' value='{{channelId}}' />
-  </span>
+    <span>channelId</span>
+    <span class="input-span">
+        <input id='channelId' bindinput='getinput' type='text' value='{{channelId}}' />
+    </span>
 </view>
 <view class='item'>
-  <span>roomId</span>
-  <span class="input-span">
-    <input id='roomId' bindinput='getinput' type='text' value='{{roomId}}' />
-  </span>
+    <span>accountId</span>
+    <span class="input-span">
+        <input id='accountId' bindinput='getinput' type='text' value='{{accountId}}' />
+    </span>
 </view>
 <view class='item'>
-  <span>accountId</span>
+    <span>token</span>
+    <span class="input-span">
+        <input id='token' bindinput='getinput' type='text' value='{{token}}' />
+    </span>
+</view>
+<!-- <view class='item'>
+  <span>类型</span>
   <span class="input-span">
-    <input id='accountId' bindinput='getinput' type='text' value='{{accountId}}' />
+    <radio-group class="radio-group" bindchange="radioChange" id="initType">
+      <radio class="radio" value="watch" checked="{{true}}">
+        <text>观看端</text>
+      </radio>
+      <radio class="radio" value="act">
+        <text>演示端</text>
+      </radio>
+    </radio-group>
   </span>
 </view>
-<view class='item'>
-  <span>token</span>
+<view class='item' wx:if="{{initType == 'act'}}">
+  <span>是否继续直播</span>
   <span class="input-span">
-    <input id='token' bindinput='getinput' type='text' value='{{token}}' />
+    <radio-group class="radio-group" bindchange="radioChange" id="keep">
+      <radio class="radio" value="{{1}}" checked="{{true}}">
+        <text>是</text>
+      </radio>
+      <radio class="radio" value="{{0}}">
+        <text>否</text>
+      </radio>
+    </radio-group>
   </span>
-</view>
+</view> -->
 <view class='btn-view'>
-  <button bindtap="gotoPush">进入文档</button>
+    <button bindtap="gotoPush">进入文档</button>
 </view>
 <view class='input-view-all'>
-  <view>版本号：1.0</view>
-  <view>开发日期：2019-09-12</view>
+    <view>版本号：1.0</view>
+    <view>开发日期：2019-09-12</view>
 </view>

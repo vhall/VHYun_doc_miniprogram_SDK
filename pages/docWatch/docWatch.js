@@ -8,7 +8,6 @@ Page({
     imageUrl: '',
     appId: '',
     channelId: '',
-    roomId: '',
     accountId: '',
     token: ''
   },
@@ -24,7 +23,6 @@ Page({
     const opt = {
       appId: this.data.appId,
       channelId: this.data.channelId,
-      roomId: this.data.roomId,
       accountId: this.data.accountId,
       token: this.data.token,
       THIS: this,

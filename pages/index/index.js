@@ -6,7 +6,6 @@ Page({
   data: {
     appId: 'd317f559', //需要将此处appId改为自己的
     channelId: 'ch_1a348b67', //需要将此处inavId改为自己的
-    roomId: 'lss_706f5237', //需要将此处roomId改为自己的
     accountId: `miniProgram_${Math.floor(1000 + Math.random() * 9000)}`, //需要将此处accountId改为自己的
     token: 'vhall', //需要将此处token改为自己的
     initType: 'watch',
@@ -15,7 +14,7 @@ Page({
 
   gotoPush: function() {
     wx.navigateTo({
-      url: `../docWatch/docWatch?channelId=${this.data.channelId}&appId=${this.data.appId}&accountId=${this.data.accountId}&token=${this.data.token}&roomId=${this.data.roomId}`
+      url: `../docWatch/docWatch?channelId=${this.data.channelId}&appId=${this.data.appId}&accountId=${this.data.accountId}&token=${this.data.token}`
     })
   },
 

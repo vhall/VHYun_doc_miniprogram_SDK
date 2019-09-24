@@ -5,9 +5,14 @@
 ### 目录结构
 
 - index 为入口文件夹
-- docWatch 为demo示例（先在vhallyun演示端发起文档直播）
-- sdk 文档sdk存放目录
+- docWatch 为 demo 示例（先在 vhallyun 演示端发起文档直播）
+- sdk 文档 sdk 存放目录
 - 其余为微信小程序必要文件
+
+### 微信后台合法域名配置
+
+- request 合法域名：https://api.vhallyun.com
+- webscoket 合法域名：wss://chat01.e.vhall.com，wss://msg01-open.e.vhall.com
 
 ### 使用方法如下
 
@@ -15,8 +20,8 @@
 
 ```javascript
 //小程序data内保留字段：imageUrl
-data:{
-    imageUrl:'' //该字段是演示图片地址，为sdk内部使用
+data: {
+  imageUrl: '' //该字段是演示图片地址，为sdk内部使用
 }
 
 import { VhallDoc } from '../sdk/vhall-mpsdk-doc-1.0.0.js'
@@ -50,16 +55,18 @@ VhallDoc.createInstance(
 ```
 
 ### 加载文档
+
 ```javascript
-    /* 加载文档
+/* 加载文档
  * @return{Number} slideIndex 当前页
  *  @return{Number} slidesTotal 总页码
  * @return{Number} switchStatus 0 - 演示端未打开文档开关  1 - 演示端已打开文档开关
  */
- this.docSdk.loadDoc(({ slideIndex, slidesTotal, switchStatus }) => {})
+this.docSdk.loadDoc(({ slideIndex, slidesTotal, switchStatus }) => {})
 ```
 
 ### 监听翻页成功函数
+
 ```javascript
 
 /* 监听翻页成功函数
@@ -70,6 +77,7 @@ this.docSdk.onPageChange(({ slideIndex, slidesTotal })=> { //slideIndex 当前�
 ```
 
 ### 观看端监听演示端文档开关函数
+
 ```javascript
 /* 观看端监听演示端文档开关函数
 * @return {String} swtichStatus 开 - on  关 - off

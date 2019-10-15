@@ -76,7 +76,7 @@ docData: {
 
   /**
    * 文档加载失败函数
-   * @param {Object} - e - ajax 失败回调信息
+   * e - ajax 失败回调信息
    */
   loadDocFail(e) {
     console.log('文档加载失败', e)
@@ -113,7 +113,7 @@ docData: {
 
   /**
    * sdk实例化完成后触发
-   * @returns {Object} - docSdk sdk句柄，用于在 onHide 和 onUnload 事件中断开socket链接
+   * docSdk sdk句柄，用于在 onHide 和 onUnload 事件中断开socket链接
    */
   getDocSdk({ detail: { docSdk } }) {
     this.docSdk = docSdk

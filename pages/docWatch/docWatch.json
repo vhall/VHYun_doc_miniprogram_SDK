@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "观看文档"
+  "navigationBarTitleText": "文档演示",
+  "usingComponents": {
+    "vhallDoc": "../../components/vhallDoc/vhallDoc"
+  }
 }

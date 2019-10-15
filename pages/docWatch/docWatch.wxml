@@ -1,4 +1,2 @@
-<view class="doc-box">
-  <image src="{{imageUrl}}" class="image" wx:if="{{imageUrl}}" />
-  <view wx:else>演示文档已被关闭</view>
-</view>
+<vhallDoc doc-data="{{docData}}" wx:if="{{showDoc}}" bind:pageChange="pageChange" bind:destroyContainer="destroyContainer" bind:createContainer="createContainer" bind:getDocSdk="getDocSdk" bind:activeContainer="activeContainer" bind:switchChange="switchChange" bind:loadDocSucc="loadDocSucc" bind:loadDocFail="loadDocFail"></vhallDoc>
+<view class="pageNumber" hidden="{{pageNumber}}">{{slideIndex}}/{{slidesTotal}}</view>

@@ -13,9 +13,15 @@ Page({
   },
 
   gotoPush: function() {
-    wx.navigateTo({
-      url: `../docWatch/docWatch?channelId=${this.data.channelId}&appId=${this.data.appId}&accountId=${this.data.accountId}&token=${this.data.token}`
-    })
+    if (this.data.initType == 'watch') {
+      wx.navigateTo({
+        url: `../docWatch/docWatch?channelId=${this.data.channelId}&appId=${this.data.appId}&accountId=${this.data.accountId}&token=${this.data.token}`
+      })
+    } else {
+      wx.navigateTo({
+        url: `../docAct/docAct?channelId=${this.data.channelId}&appId=${this.data.appId}&accountId=${this.data.accountId}&token=${this.data.token}&keep=${this.data.keep}`
+      })
+    }
   },
 
   getinput: function(e) {

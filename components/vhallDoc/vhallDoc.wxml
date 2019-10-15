@@ -1,0 +1,8 @@
+<view id="vhallDoc">
+    <view style="display:{{switchStatus? 'block' : 'none'}}">
+        <view class="view" wx:for="{{vhallDoc}}" wx:key="{{index}}" id="view-{{item.cid}}" style="height:{{item.vh}}px;}}" wx:if="{{item.active}}">
+            <image src="{{item.imageUrl}}" wx:if="{{item.imageUrl}}"></image>
+            <canvas canvas-id="{{item.cid}}"></canvas>
+        </view>
+    </view>
+</view>

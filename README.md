@@ -1,12 +1,15 @@
-# VHYun_doc_miniprogram_SDK
+# vhall-mpsdk-doc
 
-微吼云文档小程序 sdk1.0 版，目前实现了观看端的功能
+微吼云文档小程序 自定义组件 1.0 版，目前实现了观看端的自由画笔和橡皮擦功能
+
+当前未考虑演示端发起的文档或白板宽度小于手机屏宽的情况，亦未考虑横竖屏切换的情况，默认竖屏；
+组件的宽度为 canvas 画布宽，组件的高 = 当前组件宽度/发起端画布的宽 \* 发起端画布高 计算得出
 
 ### 目录结构
 
 - index 为入口文件夹
 - docWatch 为 demo 示例（先在 vhallyun 演示端发起文档直播）
-- sdk 文档 sdk 存放目录
+- components 下的 vhallDoc 为文档组件
 - 其余为微信小程序必要文件
 
 ### 微信后台合法域名配置
@@ -16,71 +19,122 @@
 
 ### 使用方法如下
 
-· 先实例化 sdk
+- wxml 中引入 vhallDoc 组件，并挂载监听函数(组件可以从 git 上拿到)
+
+```html
+<vhallDoc
+  doc-data="{{docData}}"
+  bind:pageChange="pageChange"
+  bind:destroyContainer="destroyContainer"
+  bind:createContainer="createContainer"
+  bind:getDocSdk="getDocSdk"
+  bind:activeContainer="activeContainer"
+  bind:switchChange="switchChange"
+  bind:loadDocSucc="loadDocSucc"
+  bind:loadDocFail="loadDocFail"
+></vhallDoc>
+```
+
+- docData 为初始化 sdk 所必须的数据，建议在页面的 onLoad 函数中用 wx:if 显示 vhallDoc 组件，避免传入的 doc-data 数据错误,传入 doc-data 的数据格式：
 
 ```javascript
-//小程序data内保留字段：imageUrl
-data: {
-  imageUrl: '' //该字段是演示图片地址，为sdk内部使用
+/**
+* 前4个为必传参数
+*/
+docData: {
+	appId: '',
+	channelId: '',
+	accountId: '',
+	token: '',
+    delay:0 //选填 - 收到消息（翻页、画笔、橡皮擦）后延迟多少秒处理，默认0
 }
+```
 
-import { VhallDoc } from '../sdk/vhall-mpsdk-doc-1.0.0.js'
+- 监听方法说明:
 
-/*
- * @return {Object} res - 当前实例化后的sdk
- **/
-const opt = {
-  appId: this.data.appId, // appid
-  channelId: this.data.channelId, //微吼云聊天房间id
-  accountId: this.data.accountId, // 账户id
-  token: this.data.token, // 个人账户token
-  THIS: this, // 当前微信小程序实例
-  delay: 1000 // 观看端收到翻页消息后多少毫秒翻页默认1000毫秒
-}
-VhallDoc.createInstance(
-  opt,
-  res => {
-    this.docSdk = res
-  },
-  e => {
-    // 实例化失败
-    console.log(e)
-    wx.showToast({
-      title: `实例化失败`,
-      icon: 'none',
-      duration: 2000
+```javascript
+
+  /**
+   * 文档加载完成
+   * id 当前正在演示的文档id
+   * type 当前正在演示的文档类型 document | board | '' （文档|白板|当前没有实例）
+   * slideIndex 当前页
+   * slidesTotal 总页数
+   * swtichStatus 当前演示端文档开关状态 on - 打开 | off - 关闭
+   */
+  loadDocSucc({
+    detail: { id, type, slideIndex, slidesTotal, switchStatus }
+  }) {
+    console.log({
+      id,
+      type,
+      slideIndex,
+      slidesTotal,
+      switchStatus
     })
+  },
+
+  /**
+   * 文档加载失败函数
+   * @param {Object} - e - ajax 失败回调信息
+   */
+  loadDocFail(e) {
+    console.log('文档加载失败', e)
+  },
+
+  /**
+   * 文档翻页完成后触发
+   * slideIndex 当前页
+   * slidesTotal 总页数
+   */
+  pageChange({ detail: { slideIndex, slidesTotal } }) {
+    this.setData({ slidesTotal, slideIndex })
+    console.log('翻页了', { slideIndex, slidesTotal })
+  },
+
+  /**
+   * 观看端销毁容器后触发
+   * id 销毁容器的id
+   */
+  destroyContainer({ detail: { id} }) {
+    console.log(
+      `文档已被销毁，被销毁的文档id为：${id}`
+    )
+  },
+
+  /**
+   * 观看端创建容器后触发
+   * id 创建容器的id
+   * type 创建容器类型 board | document （白板 / 文档）
+   */
+  createContainer({ detail: { id, type } }) {
+    console.log('创建容器', { id, type })
+  },
+
+  /**
+   * sdk实例化完成后触发
+   * @returns {Object} - docSdk sdk句柄，用于在 onHide 和 onUnload 事件中断开socket链接
+   */
+  getDocSdk({ detail: { docSdk } }) {
+    this.docSdk = docSdk
+  },
+
+  /**
+   * 演示端切换容器后触发
+   * id 当前正在演示的容器id
+   * type：document/board (文档、白板)当前正在演示的doc类型
+   * slideIndex type为 document 时表示当前页码，type为 board 时为 0
+   * slidesTotal type为 document 时表示当前doc总页码，type为 board 时为 0
+   */
+  activeContainer({ detail: { id, slidesTotal, slideIndex, type } }) {
+    console.log('激活文档', id, slidesTotal, slideIndex, type)
+  },
+
+  /**
+   * 演示端打开，关闭演示开关后触发
+   * swtichStatus：on - 打开 | off - 关闭
+   */
+  switchChange({ detail: { swtichStatus } }) {
+    console.log({ swtichStatus })
   }
-)
-```
-
-### 加载文档
-
-```javascript
-/* 加载文档
- * @return{Number} slideIndex 当前页
- *  @return{Number} slidesTotal 总页码
- * @return{Number} switchStatus 0 - 演示端未打开文档开关  1 - 演示端已打开文档开关
- */
-this.docSdk.loadDoc(({ slideIndex, slidesTotal, switchStatus }) => {})
-```
-
-### 监听翻页成功函数
-
-```javascript
-
-/* 监听翻页成功函数
- * @return{Number} slideIndex 当前页
- * @param {Number} slidesTotal 失败函数
- **/
-this.docSdk.onPageChange(({ slideIndex, slidesTotal })=> { //slideIndex 当前页码 // slidesTotal 总页数 })
-```
-
-### 观看端监听演示端文档开关函数
-
-```javascript
-/* 观看端监听演示端文档开关函数
-* @return {String} swtichStatus 开 - on  关 - off
-**/
-this.docSdk.onSwitchChage(（{swtichStatus}）=> {})
 ```

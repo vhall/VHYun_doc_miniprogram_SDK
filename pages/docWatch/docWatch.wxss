@@ -19,3 +19,6 @@ page {
   justify-content: center;
   align-items: center;
 }
+.pageNumber {
+  margin-top: 20rpx;
+}

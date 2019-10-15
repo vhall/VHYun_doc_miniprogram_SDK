@@ -60,11 +60,11 @@ Page({
 
   /**
    * 文档加载完成
-   * @param {String} - id 当前正在演示的文档id
-   * @param {String} - type 当前正在演示的文档类型 document | board | '' （文档、白板）
-   * @param {Number} - slideIndex 当前页
-   * @param {Number} - slidesTotal 总页数
-   * @param {String} - swtichStatus 当前演示端文档开关状态 on - 打开 | off - 关闭
+   * id 当前正在演示的文档id
+   * type 当前正在演示的文档类型 document | board | '' （文档、白板）
+   * slideIndex 当前页
+   * slidesTotal 总页数
+   * swtichStatus 当前演示端文档开关状态 on - 打开 | off - 关闭
    */
   loadDocSucc({ detail: { id, type, slideIndex, slidesTotal, switchStatus } }) {
     console.log({
@@ -83,7 +83,7 @@ Page({
 
   /**
    * 文档加载失败函数
-   * @param {Object} - e - ajax 失败回调信息
+   * e - ajax 失败回调信息
    */
   loadDocFail(e) {
     console.log('文档加载失败', e)
@@ -91,8 +91,8 @@ Page({
 
   /**
    * 文档翻页完成后触发
-   * @param {Number} - slideIndex 当前页
-   * @param {Number} - slidesTotal 总页数
+   * slideIndex 当前页
+   * slidesTotal 总页数
    */
   pageChange({ detail: { slideIndex, slidesTotal } }) {
     this.setData({ slidesTotal, slideIndex })
@@ -101,7 +101,7 @@ Page({
 
   /**
    * 观看端销毁容器后触发
-   * @param {String} - id 销毁容器的id
+   * id 销毁容器的id
    */
   destroyContainer({ detail: { id } }) {
     console.log(`文档已被销毁，被销毁的文档id为：${id}`)
@@ -110,8 +110,8 @@ Page({
 
   /**
    * 观看端创建容器后触发
-   * @param {String} - id 创建容器的id
-   * @param {String} - type 创建容器类型 board | document （白板 / 文档）
+   * id 创建容器的id
+   * type 创建容器类型 board | document （白板 / 文档）
    */
   createContainer({ detail: { id, type } }) {
     console.log('创建容器', { id, type })
@@ -119,7 +119,7 @@ Page({
 
   /**
    * sdk实例化完成后触发
-   * @returns {Object} - docSdk sdk句柄，用于在 onHide 和 onUnload 事件中断开socket链接
+   * docSdk sdk句柄，用于在 onHide 和 onUnload 事件中断开socket链接
    */
   getDocSdk({ detail: { docSdk } }) {
     this.docSdk = docSdk
@@ -127,10 +127,10 @@ Page({
 
   /**
    * 演示端切换容器后触发
-   * @param {String} - id 当前正在演示的容器id
-   * @param {String} - type：document/board (文档、白板)当前正在演示的doc类型
-   * @param {Number} - slideIndex type为 document 时表示当前页码，type为 board 时为 0
-   * @param {Number} - slidesTotal type为 document 时表示当前doc总页码，type为 board 时为 0
+   * id 当前正在演示的容器id
+   * type：document/board (文档、白板)当前正在演示的doc类型
+   * slideIndex type为 document 时表示当前页码，type为 board 时为 0
+   * slidesTotal type为 document 时表示当前doc总页码，type为 board 时为 0
    */
   activeContainer({ detail: { id, slidesTotal, slideIndex, type } }) {
     console.log('激活文档', id, slidesTotal, slideIndex, type)
@@ -139,7 +139,7 @@ Page({
 
   /**
    * 演示端打开，关闭演示开关后触发
-   * @param {String} - swtichStatus：on - 打开 | off - 关闭
+   * swtichStatus：on - 打开 | off - 关闭
    */
   switchChange({ detail: { swtichStatus } }) {
     console.log({ swtichStatus })

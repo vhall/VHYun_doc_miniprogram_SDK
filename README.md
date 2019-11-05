@@ -1,14 +1,15 @@
 # vhall-mpsdk-doc
 
-微吼云文档小程序 自定义组件 1.0 版，目前实现了观看端的自由画笔和橡皮擦功能
+微吼云文档小程序 自定义组件 1.0.0 版，目前实现了发起、观看端的自由画笔和橡皮擦、清空画布、多端绘制、切换权限功能
 
-当前未考虑演示端发起的文档或白板宽度小于手机屏宽的情况，亦未考虑横竖屏切换的情况，默认竖屏；
+当前未考虑横竖屏切换的情况，默认竖屏；
 组件的宽度为 canvas 画布宽，组件的高 = 当前组件宽度/发起端画布的宽 \* 发起端画布高 计算得出
 
 ### 目录结构
 
 - index 为入口文件夹
-- docWatch 为 demo 示例（先在 vhallyun 演示端发起文档直播）
+- docWatch 为 观看端demo 示例（先在 vhallyun 演示端发起文档直播）
+- docAct为发起端demo示例
 - components 下的 vhallDoc 为文档组件
 - 其余为微信小程序必要文件
 
@@ -23,6 +24,7 @@
 
 ```html
 <vhallDoc
+  id="vhallDoc"
   doc-data="{{docData}}"
   bind:pageChange="pageChange"
   bind:destroyContainer="destroyContainer"
@@ -39,14 +41,15 @@
 
 ```javascript
 /**
-* 前4个为必传参数
+* 均为必传参数
 */
 docData: {
-	appId: '',
-	channelId: '',
-	accountId: '',
-	token: '',
-    delay:0 //选填 - 收到消息（翻页、画笔、橡皮擦）后延迟多少秒处理，默认0
+  appId: '',
+  channelId: '',
+  roomId: '',
+  accountId: '',
+  token: '',
+  roomId: ''
 }
 ```
 
@@ -60,7 +63,7 @@ docData: {
    * type 当前正在演示的文档类型 document | board | '' （文档|白板|当前没有实例）
    * slideIndex 当前页
    * slidesTotal 总页数
-   * swtichStatus 当前演示端文档开关状态 on - 打开 | off - 关闭
+   * switchStatus 当前演示端文档开关状态 on - 打开 | off - 关闭
    */
   loadDocSucc({
     detail: { id, type, slideIndex, slidesTotal, switchStatus }
@@ -114,9 +117,12 @@ docData: {
   /**
    * sdk实例化完成后触发
    * docSdk sdk句柄，用于在 onHide 和 onUnload 事件中断开socket链接
+   * roleType为切换主持人的常量，目前只实现了主讲人和普通观众
    */
-  getDocSdk({ detail: { docSdk } }) {
+  getDocSdk({ detail: { docSdk，roleType } }) {
     this.docSdk = docSdk
+    this.roleType = roleType
+    this.setRole(this.roleType.HOST)
   },
 
   /**
@@ -132,9 +138,117 @@ docData: {
 
   /**
    * 演示端打开，关闭演示开关后触发
-   * swtichStatus：on - 打开 | off - 关闭
+   * switchStatus：on - 打开 | off - 关闭
    */
-  switchChange({ detail: { swtichStatus } }) {
-    console.log({ swtichStatus })
+  switchChange({ detail: { switchStatus } }) {
+    console.log({ switchStatus })
+  }
+```
+
+- 发起端方法说明:
+
+```javascript
+  /**
+   * 上一页
+   */
+  prev() {
+    this.vhallDoc._prev()
+  },
+  /**
+   * 下一页
+   */
+  next() {
+    this.vhallDoc._next()
+  },
+    /**
+   * 新建文档
+   * @param {String} - docId 文档id
+   * @param {Number} - width 文档宽度
+   * @param {Number} - height 文档高度
+   */
+  createDoc() {
+    this.vhallDoc._createDoc({
+        documentId: docId,
+        cw: width,
+        ch: height
+      })
+  },
+  /**
+   * 新建白板
+   * @param {String} - width  - 画板的宽
+   * @param {String} - height  - 画板的高
+   * @param {String} - backgroundColor - 画板背景色
+   */
+  createBoard() {
+    this.vhallDoc._createBoard({
+      cw: width,
+      ch: height,
+      backgroundColor
+    })
+  },
+  /**
+   * 修改画笔颜色
+   * @param {String} - color 画笔颜色
+   * */
+
+  changeColor(color) {
+    this.vhallDoc._setStroke(color)
+  },
+  /**
+   * 修改画笔宽度
+   * @param {Number} - 画笔宽度 单位 px
+   * */
+
+  changeWidth(width) {
+    this.vhallDoc._setStrokeWidth(width)
+  },
+  /**
+   * 清空画布
+   */
+  clearCanvas() {
+    // 重置
+    this.vhallDoc._clearCanvas()
+  },
+  /**
+   *
+   * 设置当前操作为橡皮擦
+   *
+   */
+  setEraser() {
+    this.vhallDoc._setEraser()
+  },
+
+  /**
+   * 选择自由画笔
+   */
+  choosePencial() {
+    this.vhallDoc._setPen()
+    wx.showToast({
+      title: '当前选择自由画笔~',
+      icon: 'none',
+      duration: 2000
+    })
+  },
+  /**
+   * 观众是否可见 - 打开开关
+   */
+  this.vhallDoc._switchOnContainer()
+
+  /**
+   * 观众是否可见 - 关闭开关
+  */
+ this.vhallDoc._switchOffContainer()
+  /**
+   * 设置为主讲人
+   */
+  setRole(e) {
+    // 设置为主持人
+    this.vhallDoc._setRole(e)
+  },
+  /**
+   * 销毁当前容器
+   */
+  sendDestroy() {
+    this.vhallDoc._destroyContainer()
   }
 ```

@@ -3,34 +3,31 @@ Page({
   /**
    * 页面的初始数据
    */
+
   data: {
-    appId: 'd317f559', //需要将此处appId改为自己的
-    channelId: 'ch_1a348b67', //需要将此处inavId改为自己的
+    appId: 'd317f559', //'321453e4', // 'd317f559',  需要将此处appId改为自己的
+    channelId: 'ch_1a348b67', //'ch_2ae4abff', //'ch_1a348b67'需要将此处inavId改为自己的
+    roomId: 'lss_706f5237', //'lss_190966fd',
     accountId: `miniProgram_${Math.floor(1000 + Math.random() * 9000)}`, //需要将此处accountId改为自己的
     token: 'vhall', //需要将此处token改为自己的
     initType: 'watch',
     keep: 1
   },
 
-  gotoPush: function() {
+  gotoPush() {
+    let url
     if (this.data.initType == 'watch') {
-      wx.navigateTo({
-        url: `../docWatch/docWatch?channelId=${this.data.channelId}&appId=${this.data.appId}&accountId=${this.data.accountId}&token=${this.data.token}`
-      })
+      url = `../docWatch/docWatch?channelId=${this.data.channelId}&appId=${this.data.appId}&accountId=${this.data.accountId}&token=${this.data.token}&roomId=${this.data.roomId}`
     } else {
-      wx.navigateTo({
-        url: `../docAct/docAct?channelId=${this.data.channelId}&appId=${this.data.appId}&accountId=${this.data.accountId}&token=${this.data.token}&keep=${this.data.keep}`
-      })
+      url = `../docAct/docAct?channelId=${this.data.channelId}&appId=${this.data.appId}&accountId=${this.data.accountId}&token=${this.data.token}&keep=${this.data.keep}&roomId=${this.data.roomId}`
     }
+    wx.navigateTo({
+      url: url
+    })
   },
 
-  getinput: function(e) {
-    this.data[e.currentTarget.id] = e.detail.value
-  },
-  radioChange(e) {
-    this.data[e.currentTarget.id] = e.detail.value
-    e.currentTarget.id == 'initType' &&
-      this.setData({ initType: e.detail.value })
+  getinput(e) {
+    this.setData({ [e.currentTarget.id]: e.detail.value })
   },
   /**
    * 生命周期函数--监听页面加载
@@ -40,7 +37,7 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {},
+  onReady() {},
 
   /**
    * 生命周期函数--监听页面显示

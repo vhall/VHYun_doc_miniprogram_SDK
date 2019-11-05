@@ -6,14 +6,23 @@
 	"setting": {
 		"urlCheck": true,
 		"es6": true,
+		"enhance": true,
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,
+		"coverView": true,
 		"autoAudits": false,
-		"coverView": true
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		}
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.8.2",
+	"libVersion": "2.9.1",
 	"appid": "wxd356dfc061f15aba",
 	"projectname": "VHYun_doc_miniprogram_SDK",
 	"debugOptions": {
@@ -39,9 +48,28 @@
 			"currentL": -1,
 			"list": []
 		},
-		"miniprogram": {
+		"gamePlugin": {
 			"current": -1,
 			"list": []
+		},
+		"miniprogram": {
+			"current": 0,
+			"list": [
+				{
+					"id": 0,
+					"name": "pages/docWatch/docWatch",
+					"pathName": "pages/docWatch/docWatch",
+					"query": "channelId=ch_1a348b67&appId=d317f559&accountId=miniProgram_2875&token=vhall&initType=watch",
+					"scene": null
+				},
+				{
+					"id": 1,
+					"name": "pages/docAct/docAct",
+					"pathName": "pages/docAct/docAct",
+					"query": "channelId=ch_999c55f8&appId=d317f559&accountId=miniProgram_2875&token=vhall&keep=1&roomId=lss_e82c916c",
+					"scene": null
+				}
+			]
 		}
 	}
 }

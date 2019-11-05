@@ -1,0 +1,60 @@
+<view class="vhallDocBox">
+    <vhallDoc id="vhallDoc" doc-data="{{docData}}" wx:if="{{showDoc}}" bind:pageChange="pageChange" bind:destroyContainer="destroyContainer" bind:createContainer="createContainer" bind:getDocSdk="getDocSdk" bind:activeContainer="activeContainer" bind:switchChange="switchChange" bind:loadDocSucc="loadDocSucc" bind:loadDocFail="loadDocFail"></vhallDoc>
+</view>
+<view class="pageNumber" hidden="{{pageNumber}}">{{slideIndex}}/{{slidesTotal}}</view>
+<view class="button-box">
+    <button bind:tap="prev" size="mini">prev</button>
+    <button bind:tap="next" size="mini">next</button>
+</view>
+<view class="button-box">
+    <button bind:tap="createDoc" size="mini">新建文档</button>
+    <button bind:tap="createBoard" size="mini">新建白板</button>
+    <button bind:tap="sendDestroy" size="mini">销毁当前实例</button>
+</view>
+<!-- sendDestroy -->
+<view class="button-box"></view>
+<view class="button-box">
+    <view>
+        观众是否可见 :
+        <switch checked="{{switchChecked}}" bindchange="changeSwitch" />
+    </view>
+</view>
+<view class="choose-box" wx:if="{{width}}">
+    <view class="color-box" style="background: {{'rgb(' + r + ', ' + g + ', ' + b + ')'}};height: {{2*w}}rpx; border-radius: {{w}}rpx"></view>
+    <slider min="1" max="50" step="1" show-value="true" value="{{w}}" bindchange="changeWidth" />
+</view>
+<view class="choose-box" wx:if="{{color}}">
+    <view class="color-box" style="background: {{'rgb(' + r + ', ' + g + ', ' + b + ')'}}; height: {{w*2}}rpx; border-radius: {{w}}rpx"></view>
+    <slider min="0" max="255" step="1" show-value="true" activeColor="red" value="{{r}}" data-color="r" bindchange="changeColor" />
+    <slider min="0" max="255" step="1" show-value="true" activeColor="green" value="{{g}}" data-color="g" bindchange="changeColor" />
+    <slider min="0" max="255" step="1" show-value="true" activeColor="blue" value="{{b}}" data-color="b" bindchange="changeColor" />
+</view>
+<view class="choose-box-flex" wx:if="{{clear}}">
+    <view class="choose-item" bindtap="setEraser">
+        <view class="choose-img">
+            <image src="./img/easer.png" />
+        </view>
+        <view>橡皮擦</view>
+    </view>
+    <view class="choose-item" bindtap="clearCanvas">
+        <view class="choose-img">
+            <image src="./img/allclear.png" />
+        </view>
+        <view>清空</view>
+    </view>
+</view>
+<view class="bottom">
+    <view class="list-item" bindtap="choosePencial">
+        <image src="./img/pencil.png" />
+    </view>
+    <view class="list-item" data-type="width" bindtap="tapBtn">
+        <image src="./img/pen.png" />
+    </view>
+    <view class="list-item" data-type="color" bindtap="tapBtn">
+        <image src="./img/color.png" />
+    </view>
+    <view class="list-item" data-type="clear" bindtap="tapBtn">
+        <image src="./img/clear.png" />
+    </view>
+</view>
+<modal show="{{showModel}}" bind:confirmDoc="confirmDoc"></modal>

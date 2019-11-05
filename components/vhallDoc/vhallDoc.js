@@ -1,4 +1,5 @@
-// import { VhallDoc } from '../../pages/src/main.js'
+// import { VhallDoc } from '../../pages/src/main'
+// import { VhallDoc } from '../../pages/sdk/vhall-mpsdk-doc-1.0.0'
 import { VhallDoc } from './sdk/vhall-mpsdk-doc-1.0.0'
 Component({
   behaviors: [],
@@ -13,9 +14,12 @@ Component({
       value: {
         appId: '',
         channelId: '',
+        roomId: '',
         accountId: '',
         token: '',
-        delay: 0
+        delay: 0,
+        keep: 1,
+        roomId: ''
       }
     }
   },
@@ -25,7 +29,11 @@ Component({
   data: {
     // 私有数据，可用于模板渲染
     vhallDoc: [],
-    switchStatus: false
+    switchStatus: false,
+    vhallDocImg: {
+      imgVw: '',
+      imgVh: ''
+    }
   },
 
   lifetimes: {
@@ -44,13 +52,14 @@ Component({
       THIS: this,
       canvasBoxId: 'vhallDoc'
     }
-    console.log(opt)
     VhallDoc.createInstance(
       opt,
-      ({ docSdk, Event, message }) => {
+      ({ docSdk, Event, ROLE_TYPE, message }) => {
         this.docSdk = docSdk
-        // 将sdk句柄抛出，用于页面卸载或隐藏时断开socket链接
-        this.triggerEvent('getDocSdk', docSdk)
+        this.roleType = ROLE_TYPE
+        // 将sdk句柄抛出，用于页面卸载或隐藏时断开socket链接、设置权限
+        this.triggerEvent('getDocSdk', { docSdk, roleType: ROLE_TYPE })
+
         message.on(Event.CREATECONTAINER, param => {
           this.triggerEvent('createContainer', param)
         })
@@ -66,14 +75,29 @@ Component({
         message.on(Event.EVENTSWITCHCHANGE, param => {
           this.triggerEvent('switchChange', param)
         })
-        docSdk.loadDoc(
-          param => {
-            this.triggerEvent('loadDocSucc', param)
-          },
-          param => {
-            this.triggerEvent('loadDocFail', param)
-          }
-        )
+        if (this.properties.docData.keep == 1) {
+          docSdk.keepDoc(() => {
+            docSdk.loadDoc(
+              param => {
+                this.triggerEvent('loadDocSucc', param)
+              },
+              param => {
+                this.triggerEvent('loadDocFail', param)
+              }
+            )
+          })
+        } else if (this.properties.docData.keep == 0) {
+          docSdk.resetDoc(() => {
+            docSdk.loadDoc(
+              param => {
+                this.triggerEvent('loadDocSucc', param)
+              },
+              param => {
+                this.triggerEvent('loadDocFail', param)
+              }
+            )
+          })
+        }
       },
       e => {
         // 实例化失败
@@ -95,18 +119,64 @@ Component({
   },
 
   methods: {
-    onMyButtonTap: function() {
-      this.setData({
-        // 更新属性和数据的方法与更新页面数据的方法类似
+    _prev() {
+      this.docSdk.prev()
+    },
+    _next() {
+      this.docSdk.next()
+    },
+    _createDoc(param) {
+      return new Promise(resolve => {
+        this.docSdk.createDoc(param, res => {
+          resolve(res)
+        })
       })
     },
-    // 内部方法建议以下划线开头
-    _myPrivateMethod: function() {
-      // 这里将 data.A[0].B 设为 'myPrivateData'
-      this.setData({
-        'A[0].B': 'myPrivateData'
-      })
+    _keepDoc() {
+      this.docSdk.keepDoc()
     },
-    _propertyChange: function(newVal, oldVal) {}
+    _createBoard(param) {
+      this.docSdk.createBoard(param)
+    },
+    _touchstart(e) {
+      this.docSdk.touchstart(e)
+      // console.log(e)
+    },
+    _touchmove(e) {
+      this.docSdk.touchmove(e)
+      // console.log(e)
+    },
+    _touchend(e) {
+      this.docSdk.touchend(e)
+      // console.log(e)
+    },
+    _setStroke(color) {
+      this.docSdk.setStroke(color)
+    },
+    _setStrokeWidth(width) {
+      this.docSdk.setStrokeWidth(width)
+    },
+    _setEraser() {
+      this.docSdk.setEraser()
+    },
+    _setPen() {
+      this.docSdk.setPen()
+    },
+    _switchOnContainer() {
+      //console.log(2)
+      this.docSdk.switchOnContainer()
+    },
+    _switchOffContainer() {
+      this.docSdk.switchOffContainer()
+    },
+    _setRole(e) {
+      this.docSdk.setRole(e)
+    },
+    _destroyContainer() {
+      this.docSdk.destroyContainer()
+    },
+    _clearCanvas() {
+      this.docSdk.clearCanvas()
+    }
   }
 })

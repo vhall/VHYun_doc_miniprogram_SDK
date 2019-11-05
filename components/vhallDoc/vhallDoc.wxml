@@ -1,8 +1,9 @@
-<view id="vhallDoc">
+<view id="vhallDoc" class="vhallDoc">
+    <!-- <canvas canvas-id="tempCanvas" class="temCanvas"></canvas> -->
     <view style="display:{{switchStatus? 'block' : 'none'}}">
-        <view class="view" wx:for="{{vhallDoc}}" wx:key="{{index}}" id="view-{{item.cid}}" style="height:{{item.vh}}px;}}" wx:if="{{item.active}}">
-            <image src="{{item.imageUrl}}" wx:if="{{item.imageUrl}}"></image>
-            <canvas canvas-id="{{item.cid}}"></canvas>
+        <view class="view" wx:for="{{vhallDoc}}" wx:key="{{index}}" id="view-{{item.cid}}" wx:if="{{item.active}}" style="height:{{item.vh}}px;">
+            <image src="{{item.imageUrl}}" wx:if="{{item.imageUrl}}" style="width:{{item.imgVw}}px;height:{{item.imgVh}}px;" class="image"></image>
+            <canvas canvas-id="{{item.cid}}" class="canvas" bindtouchstart="_touchstart" bindtouchmove="_touchmove" bindtouchend="_touchend" disable-scroll="true"></canvas>
         </view>
     </view>
 </view>

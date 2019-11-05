@@ -1,9 +1,13 @@
 {
-  "pages": ["pages/index/index", "pages/docWatch/docWatch"],
+  "pages": [
+    "pages/index/index",
+    "pages/docWatch/docWatch",
+    "pages/docAct/docAct"
+  ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "微吼云文档小程序sdk",
     "navigationBarTextStyle": "black"
   },
   "sitemapLocation": "sitemap.json"

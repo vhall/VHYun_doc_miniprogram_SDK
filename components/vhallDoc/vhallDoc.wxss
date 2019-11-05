@@ -1,16 +1,23 @@
 .view {
   height: 100%;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.view image {
-  width: 100%;
-  height: 100%;
-}
-.view canvas {
+.canvas {
   width: 100%;
   height: 100%;
   position: absolute;
   top: 0;
   left: 0;
   z-index: 100;
+}
+.image {
+  width: 100%;
+  height: 100%;
+}
+.vhallDoc {
+  width: 100%;
+  height: 100%;
 }

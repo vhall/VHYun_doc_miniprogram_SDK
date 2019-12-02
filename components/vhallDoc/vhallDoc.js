@@ -1,6 +1,5 @@
-// import { VhallDoc } from '../../pages/src/main'
-// import { VhallDoc } from '../../pages/sdk/vhall-mpsdk-doc-1.0.0'
-import { VhallDoc } from './sdk/vhall-mpsdk-doc-1.0.0'
+// import main from '../../sdk/main'
+import main from './sdk/vhall-mpsdk-doc-1.0.0'
 Component({
   behaviors: [],
   options: {
@@ -18,18 +17,18 @@ Component({
         accountId: '',
         token: '',
         delay: 0,
-        keep: 1,
-        roomId: ''
+        keep: 1
       }
     }
   },
   docSdk: null,
+  VhallDoc: null,
   drawFun: null,
   docSdkEvent: null,
   data: {
     // 私有数据，可用于模板渲染
     vhallDoc: [],
-    switchStatus: false,
+    switchStatus: true,
     vhallDocImg: {
       imgVw: '',
       imgVh: ''
@@ -46,20 +45,26 @@ Component({
   // 生命周期函数，可以为函数，或一个在methods段中定义的方法名
   attached: function() {}, // 此处attached的声明会被lifetimes字段中的声明覆盖
   ready() {
+    this.VhallDoc = new main()
     // this.data = { ...this.data, ...this.properties.docData }
     const opt = {
       ...this.properties.docData,
       THIS: this,
       canvasBoxId: 'vhallDoc'
     }
-    VhallDoc.createInstance(
+    this.VhallDoc.createInstance(
       opt,
-      ({ docSdk, Event, ROLE_TYPE, message }) => {
-        this.docSdk = docSdk
-        this.roleType = ROLE_TYPE
+      res => {
+        const { docSdk, ROLE_TYPE, message, Event } = res
+        this.docSdk = res.docSdk
+        this.roleType = res.ROLE_TYPE
+        this.message = res.message
         // 将sdk句柄抛出，用于页面卸载或隐藏时断开socket链接、设置权限
-        this.triggerEvent('getDocSdk', { docSdk, roleType: ROLE_TYPE })
-
+        this.triggerEvent('getDocSdk', {
+          docSdk,
+          roleType: ROLE_TYPE,
+          Event
+        })
         message.on(Event.CREATECONTAINER, param => {
           this.triggerEvent('createContainer', param)
         })
@@ -97,6 +102,15 @@ Component({
               }
             )
           })
+        } else {
+          docSdk.loadDoc(
+            param => {
+              this.triggerEvent('loadDocSucc', param)
+            },
+            param => {
+              this.triggerEvent('loadDocFail', param)
+            }
+          )
         }
       },
       e => {
@@ -114,8 +128,8 @@ Component({
   pageLifetimes: {
     // 组件所在页面的生命周期函数
     show() {},
-    hide: function() {},
-    resize: function() {}
+    hide() {},
+    resize() {}
   },
 
   methods: {
@@ -140,15 +154,12 @@ Component({
     },
     _touchstart(e) {
       this.docSdk.touchstart(e)
-      // console.log(e)
     },
     _touchmove(e) {
       this.docSdk.touchmove(e)
-      // console.log(e)
     },
     _touchend(e) {
       this.docSdk.touchend(e)
-      // console.log(e)
     },
     _setStroke(color) {
       this.docSdk.setStroke(color)
@@ -163,7 +174,6 @@ Component({
       this.docSdk.setPen()
     },
     _switchOnContainer() {
-      //console.log(2)
       this.docSdk.switchOnContainer()
     },
     _switchOffContainer() {
@@ -177,6 +187,12 @@ Component({
     },
     _clearCanvas() {
       this.docSdk.clearCanvas()
+    },
+    _destoryVhallDoc() {
+      this.docSdk.destroyInstance()
+      this.vhallDoc = []
+      this.docSdk = null
+      this.VhallDoc = null
     }
   }
 })

@@ -1,15 +1,15 @@
 # vhall-mpsdk-doc
 
-微吼云文档小程序 自定义组件 1.0.0 版，目前实现了发起、观看端的自由画笔和橡皮擦、清空画布、多端绘制、切换权限功能
+微吼云文档小程序,目前实现了发起、观看端的自由画笔和橡皮擦、清空画布、多端绘制、切换权限功能
 
 当前未考虑横竖屏切换的情况，默认竖屏；
-组件的宽度为 canvas 画布宽，组件的高 = 当前组件宽度/发起端画布的宽 \* 发起端画布高 计算得出
+观看端组件的宽度为 canvas 画布宽，组件的高 = 当前组件宽度/发起端画布的宽 \* 发起端画布高 计算得出
 
 ### 目录结构
 
 - index 为入口文件夹
-- docWatch 为 观看端demo 示例（先在 vhallyun 演示端发起文档直播）
-- docAct为发起端demo示例
+- docWatch 为 观看端 demo 示例（先在 vhallyun 演示端发起文档直播）
+- docAct 为发起端 demo 示例
 - components 下的 vhallDoc 为文档组件
 - 其余为微信小程序必要文件
 
@@ -48,8 +48,7 @@ docData: {
   channelId: '',
   roomId: '',
   accountId: '',
-  token: '',
-  roomId: ''
+  token: ''
 }
 ```
 
@@ -116,10 +115,10 @@ docData: {
 
   /**
    * sdk实例化完成后触发
-   * docSdk sdk句柄，用于在 onHide 和 onUnload 事件中断开socket链接
+   * docSdk sdk句柄
    * roleType为切换主持人的常量，目前只实现了主讲人和普通观众
    */
-  getDocSdk({ detail: { docSdk，roleType } }) {
+  getDocSdk({ detail: { docSdk,roleType } }) {
     this.docSdk = docSdk
     this.roleType = roleType
     this.setRole(this.roleType.HOST)

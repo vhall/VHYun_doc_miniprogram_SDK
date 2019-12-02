@@ -1,15 +1,16 @@
 // pages/index.js
+import { appId, channelId, roomId, token } from '../../const/indexConst'
 Page({
   /**
    * 页面的初始数据
    */
 
   data: {
-    appId: 'd317f559', //'321453e4', // 'd317f559',  需要将此处appId改为自己的
-    channelId: 'ch_1a348b67', //'ch_2ae4abff', //'ch_1a348b67'需要将此处inavId改为自己的
-    roomId: 'lss_706f5237', //'lss_190966fd',
+    appId, //'d317f559', //'321453e4', // 'd317f559',  需要将此处appId改为自己的
+    channelId, //'ch_2ae4abff', //'ch_1a348b67'需要将此处inavId改为自己的
+    roomId, //'lss_190966fd',
+    token, //需要将此处token改为自己的
     accountId: `miniProgram_${Math.floor(1000 + Math.random() * 9000)}`, //需要将此处accountId改为自己的
-    token: 'vhall', //需要将此处token改为自己的
     initType: 'watch',
     keep: 1
   },

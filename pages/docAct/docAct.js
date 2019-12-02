@@ -15,8 +15,7 @@ Page({
       roomId: '',
       accountId: '',
       token: '',
-      keep: 1,
-      roomId: ''
+      keep: 1
     },
     pageNumber: true,
     type: 'board',
@@ -53,10 +52,14 @@ Page({
   },
   // 页面卸载
   onUnload() {
-    if (this.docSdk) {
-      this.docSdk.destroyInstance()
-      this.docSdk = null
+    try {
+      this.vhallDoc._destoryVhallDoc()
+    } catch (error) {
+      console.log(error)
     }
+    this.docSdk = null // sdk实例，本demo中仅用于onhide和onunload中断开连接
+    this.vhallDoc = null // 组件实例
+    this.roleType = null
     wx.showToast({
       title: '连接已断开~',
       icon: 'none',
@@ -66,11 +69,15 @@ Page({
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function() {
-    if (this.docSdk) {
-      this.docSdk.destroyInstance()
-      this.docSdk = null
+  onHide() {
+    try {
+      this.vhallDoc._destoryVhallDoc()
+    } catch (error) {
+      console.log(error)
     }
+    this.docSdk = null // sdk实例，本demo中仅用于onhide和onunload中断开连接
+    this.vhallDoc = null // 组件实例
+    this.roleType = null
     wx.showToast({
       title: '连接已断开~',
       icon: 'none',
@@ -101,7 +108,6 @@ Page({
       pageNumber: type == 'board' || type == '',
       switchChecked: switchStatus == 'on' ? true : false
     })
-    // console.log()
   },
 
   /**
@@ -307,5 +313,13 @@ Page({
    */
   sendDestroy() {
     this.vhallDoc._destroyContainer()
+  },
+  goback() {
+    // wx.redirectTo({
+    //   url: "../index/index"
+    // });
+    wx.reLaunch({
+      url: '/pages/index/index'
+    })
   }
 })

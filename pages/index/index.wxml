@@ -14,7 +14,7 @@
 <view class='item'>
   <span class="item-name">roomId</span>
   <span class="input-span">
-    <input id='channelId' bindinput='getinput' type='text' value='{{roomId}}' />
+    <input id='roomId' bindinput='getinput' type='text' value='{{roomId}}' />
   </span>
 </view>
 <view class='item'>

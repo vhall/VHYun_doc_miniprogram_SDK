@@ -13,7 +13,7 @@
   使用模块：
   场馆 -> 发布 -> 选择使用物品
  */
-
+import { docId } from '../../const/indexConst'
 Component({
   /**
    * 组件的属性列表
@@ -30,7 +30,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-    doc: '253dccce'
+    doc: docId
   },
 
   /**

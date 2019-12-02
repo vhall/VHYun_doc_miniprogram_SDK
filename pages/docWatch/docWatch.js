@@ -1,10 +1,9 @@
 // pages/docWatch/docWatch.js
-import utils from '../utils/utils'
 Page({
   /**
    * 页面的初始数据
    */
-  docSdk: null, // sdk实例，本demo中仅用于onhide和onunload中断开连接
+  docSdk: null, // sdk实例
   data: {
     showDoc: false,
     docData: {
@@ -12,9 +11,7 @@ Page({
       channelId: '',
       roomId: '',
       accountId: '',
-      token: '',
-      keep: 1,
-      roomId: ''
+      token: ''
     },
     pageNumber: true,
     slideIndex: '',
@@ -31,13 +28,17 @@ Page({
     }
     this.setData({ showDoc: true })
     this.setData({ docData: this.data.docData })
+    this.vhallDoc = this.selectComponent('#vhallDoc')
   },
   // 页面卸载
   onUnload() {
-    if (this.docSdk) {
-      this.docSdk.destroyInstance()
-      this.docSdk = null
+    try {
+      this.vhallDoc._destoryVhallDoc()
+    } catch (error) {
+      console.log(error)
     }
+    this.docSdk = null
+    this.vhallDoc = null
     wx.showToast({
       title: '连接已断开~',
       icon: 'none',
@@ -48,10 +49,13 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide() {
-    if (this.docSdk) {
-      this.docSdk.destroyInstance()
-      this.docSdk = null
+    try {
+      this.vhallDoc._destoryVhallDoc()
+    } catch (error) {
+      console.log(error)
     }
+    this.docSdk = null
+    this.vhallDoc = null
     wx.showToast({
       title: '连接已断开~',
       icon: 'none',
@@ -69,7 +73,6 @@ Page({
    * switchStatus 当前演示端文档开关状态 on - 打开 | off - 关闭
    */
   loadDocSucc({ detail: { id, type, slideIndex, slidesTotal, switchStatus } }) {
-    console.log()
     console.log({
       id,
       type,
@@ -77,7 +80,6 @@ Page({
       slidesTotal,
       switchStatus
     })
-    this.type = type
     this.setData({
       slidesTotal,
       slideIndex,
@@ -123,7 +125,7 @@ Page({
 
   /**
    * sdk实例化完成后触发
-   * docSdk sdk句柄，用于在 onHide 和 onUnload 事件中断开socket链接
+   * docSdk sdk句柄
    */
   getDocSdk(e) {
     this.docSdk = e.detail.docSdk
@@ -147,5 +149,8 @@ Page({
    */
   switchChange({ detail: { switchStatus } }) {
     console.log({ switchStatus })
+    switchStatus == 'off'
+      ? this.setData({ pageNumber: true })
+      : this.setData({ pageNumber: false })
   }
 })

@@ -1,0 +1,44 @@
+{
+  "name": "vhall-mpsdk-chat",
+  "version": "1.0.0",
+  "description": "微吼云文档白板小程序SDKdemo",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "buildDev": "node  build/replaceConst.js dev && webpack --progress --config   build/webpack.prod.js",
+    "buildTestDev": "node build/replaceConst.js testDev && webpack --progress --config  build/webpack.prod.js",
+    "buildTestMaster": "node  build/replaceConst.js testMaster && webpack --progress --config   build/webpack.prod.js",
+    "buildMaster": "node  build/replaceConst.js master && webpack --progress --config   build/webpack.prod.js",
+    "esdoc": "./node_modules/.bin/esdoc",
+    "lint": "cross-env eslint --fix sdk"
+  },
+  "keywords": [
+    "文档白板小程序"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-3": "^6.24.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "clean-webpack-plugin": "^0.1.19",
+    "cross-env": "^6.0.3",
+    "esdoc": "^1.1.0",
+    "esdoc-ecmascript-proposal-plugin": "^1.0.0",
+    "esdoc-importpath-plugin": "^1.0.2",
+    "esdoc-jsx-plugin": "^1.0.0",
+    "esdoc-react-plugin": "^1.0.1",
+    "esdoc-standard-plugin": "^1.0.0",
+    "eslint": "^6.6.0",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.2.1",
+    "webpack-merge": "^4.2.1",
+    "webpack-parallel-uglify-plugin": "^1.1.2"
+  }
+}

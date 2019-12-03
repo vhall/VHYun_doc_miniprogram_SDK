@@ -18,6 +18,9 @@
 - request 合法域名：https://api.vhallyun.com
 - webscoket 合法域名：wss://chat01.e.vhall.com，wss://msg01-open.e.vhall.com
 
+### 小程序码
+- ![](https://static.vhallyun.com/doc-images/5de618c3cd675_5de618c3.jpg)
+
 ### 使用方法如下
 
 - wxml 中引入 vhallDoc 组件，并挂载监听函数(组件可以从 git 上拿到)

@@ -19,7 +19,8 @@
 - webscoket 合法域名：wss://chat01.e.vhall.com，wss://msg01-open.e.vhall.com
 
 ### 小程序码
-- ![](https://static.vhallyun.com/doc-images/5de618c3cd675_5de618c3.jpg)
+
+![](https://static.vhallyun.com/doc-images/5de618c3cd675_5de618c3.jpg)
 
 ### 使用方法如下
 
